@@ -13,3 +13,5 @@ spring:
       ddl-auto: update
   profiles:
     active: dev
+scheduler:
+  currency-fetch-cron: 0 0 12 * * *
