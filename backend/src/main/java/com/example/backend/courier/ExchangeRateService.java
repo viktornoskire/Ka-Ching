@@ -3,6 +3,7 @@ package com.example.backend.courier;
 import com.example.backend.dto.CurrenciesResponse;
 import com.example.backend.dto.Currency;
 import com.example.backend.dto.CurrencyResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -11,8 +12,11 @@ import java.util.List;
 
 @Service
 public class ExchangeRateService {
-    String API_KEY = "28048517cb8876b8cf974a2e4446efea001dbbb2";
-    String API_KEY_FALLBACK = "5c2654767f8763adf1e5928bcab34f0a36a7a25a";
+    @Value("${app.API_KEY}")
+    private String API_KEY;
+
+    @Value("${app.API_KEY_FALLBACK:}")
+    private String API_KEY_FALLBACK;
 
     private final WebClient webClient;
     private final CurrencyListService currencyListService;
