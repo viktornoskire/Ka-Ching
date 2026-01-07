@@ -2,6 +2,7 @@ package com.example.backend;
 
 import com.example.backend.courier.ExchangeRateService;
 import com.example.backend.dto.CurrencyResponse;
+import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,10 @@ public class ExchangeRateController {
 
     @GetMapping
     public List<CurrencyResponse> getRates(){
-        return exchangeRateService.updateRates();
+        try {
+            return exchangeRateService.updateRates();
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Failed to fetch currency rates:");
+        }
     }
 }

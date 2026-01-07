@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    async:
+      request-timeout: 240000
   application:
     name: ka-ching
   threads:
