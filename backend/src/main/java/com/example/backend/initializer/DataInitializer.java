@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.initializer;
 
 import com.example.backend.entity.Currency;
 import com.example.backend.repository.CurrencyRepository;
