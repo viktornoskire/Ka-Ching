@@ -15,5 +15,3 @@ spring:
     active: dev
 scheduler:
   currency-fetch-cron: 0 0 12 * * *
-API_KEY: ${API_KEY:}
-API_KEY_FALLBACK: ${API_KEY_FALLBACK:}
