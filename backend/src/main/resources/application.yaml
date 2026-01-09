@@ -1,11 +1,14 @@
 spring:
+  mvc:
+    async:
+      request-timeout: 240000
   application:
     name: ka-ching
   threads:
     virtual:
       enabled: true
   datasource:
-    url: jdbc:mysql://mysql:3306/ka_ching
+    url: jdbc:mysql://localhost:3306/ka_ching
     username: ${MYSQL_USER:user}
     password: ${MYSQL_PASSWORD:password}
   jpa:
@@ -15,5 +18,6 @@ spring:
     active: dev
 scheduler:
   currency-fetch-cron: 0 0 12 * * *
-API_KEY: ${API_KEY:}
-API_KEY_FALLBACK: ${API_KEY_FALLBACK:}
+app:
+  API_KEY: "${MY_API_KEY}"
+  API_KEY_FALLBACK: "${MY_API_KEY_FALLBACK}"
