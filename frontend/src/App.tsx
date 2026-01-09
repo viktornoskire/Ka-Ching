@@ -1,4 +1,6 @@
 // import { useState } from 'react'
+import "./components/CurrencyList.tsx"
+import CurrencyList from "./components/CurrencyList.tsx";
 
 function App() {
 
@@ -14,11 +16,7 @@ function App() {
                 <div>
                     <label htmlFor="sourceCurrency">Base Amount</label>
                     <input type="text"/>
-                    <select>
-                        <option value="EUR">EUR</option>
-                        <option value="USD">USD</option>
-                        <option value="AUD">AUD</option>
-                    </select>
+                    <CurrencyList/>
                 </div>
                 <div>
                     <label htmlFor="convertedAmount">Converted amount</label>
