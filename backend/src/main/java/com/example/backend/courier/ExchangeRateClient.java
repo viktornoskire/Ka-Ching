@@ -27,4 +27,8 @@ public class ExchangeRateClient {
         }
         return new CurrencyResponse(cur.getRecordedAt(), cur.getRate(), cur.getIsoCode(), cur.getName());
     }
+
+    public List<String> getAllIsoCodes() {
+        return currencyRepository.getAllIsoCodes();
+    }
 }

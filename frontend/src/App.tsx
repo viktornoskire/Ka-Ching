@@ -15,13 +15,13 @@ function App() {
                 <h2 className={"text-2xl font-bold underline mb-10"} >Currency Converter</h2>
                 <div>
                     <label htmlFor="sourceCurrency">Base Amount</label>
-                    <input type="text"/>
                     <CurrencyList/>
+                    <input type="text" className={"bg-white outline-none rounded-md m-2 text-xl pl-2 py-1"}/>
                 </div>
                 <div>
                     <label htmlFor="convertedAmount">Converted amount</label>
-                    <input type="text" className={"convertedAmount"}/>
                     <CurrencyList/>
+                    <input type="text" className={"bg-white outline-none rounded-md m-2 text-xl pl-2 py-1"}/>
                 </div>
             </form>
         </div>

@@ -1,33 +1,52 @@
-import {useEffect, useState} from "react";
-
-interface Currency {
-    isoCode: string;
-    rate: number;
-    name: string;
-    recordedAt: Date;
-}
+import { useEffect, useState } from "react";
 
 export default function CurrencyList() {
-    const [currencies, setCurrencies] = useState<Currency[]>([]);
+    const [currencies, setCurrencies] = useState<string[]>([]);
+    const [selectedCurrency, setSelectedCurrency] = useState("");
 
     useEffect(() => {
         async function fetchCurrencies() {
             try {
-                const res = await fetch("http://localhost:8080/currencies");
+                const res = await fetch("http://localhost:8080/api/rates");
                 const data = await res.json();
                 setCurrencies(data);
             } catch (error) {
                 console.log(error);
             }
         }
-        fetchCurrencies().then(() => console.log("Fetched currencies"));
-    })
+
+        fetchCurrencies();
+    }, []);
+
+    useEffect(() => {
+        if (!selectedCurrency) return;
+
+        async function fetchCurrency() {
+            try {
+                const res = await fetch(
+                    "http://localhost:8080/api/rates/" + selectedCurrency
+                );
+                const data = await res.json();
+                console.log(data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchCurrency();
+    }, [selectedCurrency]);
 
     return (
-        <>
-            <select>
-                {currencies.map(currency => <option>{currency.isoCode}</option>)}
-            </select>
-        </>
-    )
+        <select
+            value={selectedCurrency}
+            onChange={(e) => setSelectedCurrency(e.target.value)}
+            className=""
+        >
+            {currencies.map((c) => (
+                <option key={c} value={c}>
+                    {c}
+                </option>
+            ))}
+        </select>
+    );
 }
