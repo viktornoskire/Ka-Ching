@@ -1,8 +1,7 @@
-package com.example.backend;
+package com.example.backend.controller;
 
 import com.example.backend.courier.ExchangeRateService;
 import com.example.backend.dto.CurrencyResponse;
-import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

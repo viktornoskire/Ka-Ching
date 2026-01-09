@@ -4,6 +4,7 @@ import com.example.backend.entity.Currency;
 import com.example.backend.repository.CurrencyRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -19,11 +20,10 @@ public class DataInitializer implements ApplicationRunner {
     }
 
     @Override
+    @Profile(value = "init")
     public void run(ApplicationArguments args) throws Exception {
-       if (currencyRepository.count() == 0) {
            Currency eur = new Currency("EUR", "Euro", 1.0, LocalDate.now());
            Currency usd = new Currency("USD", "US Dollar", 1.12, LocalDate.now());
            currencyRepository.saveAll(List.of(eur, usd));
-       }
     }
 }

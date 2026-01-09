@@ -9,10 +9,18 @@ public record Currency(LocalDate updated_date,
                        String name) {
 
     public String rate(String isoCode) {
-        return rates.get(isoCode).get("rate");
+        Map<String, String> entry = rates.get(isoCode);
+        if (entry == null) {
+            return null;
+        }
+        return entry.get("rate");
     }
 
     public String name(String isoCode) {
-        return rates.get(isoCode).get("currency_name");
+        Map<String, String> entry = rates.get(isoCode);
+        if (entry == null) {
+            return null;
+        }
+        return entry.get("currency_name");
     }
 }

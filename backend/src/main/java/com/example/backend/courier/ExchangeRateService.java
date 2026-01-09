@@ -4,11 +4,13 @@ import com.example.backend.dto.CurrenciesResponse;
 import com.example.backend.dto.Currency;
 import com.example.backend.dto.CurrencyResponse;
 import com.example.backend.error.ApiUsageLimit;
+import com.example.backend.repository.CurrencyRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,12 @@ public class ExchangeRateService {
 
     private final WebClient webClient;
     private final CurrencyListService currencyListService;
+    private final CurrencyRepository currencyRepository;
 
-    public ExchangeRateService(WebClient.Builder builder, CurrencyListService currencyListService) {
+    public ExchangeRateService(WebClient.Builder builder, CurrencyListService currencyListService, CurrencyRepository currencyRepository) {
         this.webClient = builder.baseUrl("https://api.getgeoapi.com/v2/currency/convert").build();
         this.currencyListService = currencyListService;
+        this.currencyRepository = currencyRepository;
         log = org.slf4j.LoggerFactory.getLogger(ExchangeRateService.class);
     }
 
@@ -37,9 +41,29 @@ public class ExchangeRateService {
         CurrenciesResponse list = currencyListService.getCurrenciesList();
         List<CurrencyResponse> currencies = new ArrayList<>();
         for (String isoCode : list.currencies().keySet()) {
-            Thread.sleep(1000);
+            Thread.sleep(1000); // sleep for 1 second between requests to not overload the API
             Currency cur = fetchCurrency(isoCode);
-            currencies.add(new CurrencyResponse(cur.updated_date(), cur.rate(isoCode), isoCode, cur.name(isoCode)));
+
+            if (cur == null) {
+                throw new RuntimeException("Failed to fetch currency rates");
+            }
+
+            LocalDate updatedDate = cur.updated_date();
+            String rate = cur.rate(isoCode);
+            String name = cur.name(isoCode);
+
+            if (rate == null || name == null || updatedDate == null) {
+                log.warn("Invalid currency data: {}", cur);
+                continue;
+            }
+
+            currencies.add(new CurrencyResponse(updatedDate, rate, isoCode, name));
+            try {
+                double curRate = Double.parseDouble(rate);
+                currencyRepository.save(new com.example.backend.entity.Currency(isoCode, cur.name(isoCode), curRate, cur.updated_date()));
+            } catch (NumberFormatException e) {
+                log.warn("Invalid currency rate: {}", cur.rate(cur.isoCode()));
+            }
         }
         return currencies;
     }
