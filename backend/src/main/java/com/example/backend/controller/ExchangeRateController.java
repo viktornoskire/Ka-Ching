@@ -1,10 +1,9 @@
 package com.example.backend.controller;
 
+import com.example.backend.courier.ExchangeRateClient;
 import com.example.backend.courier.ExchangeRateService;
 import com.example.backend.dto.CurrencyResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,9 +12,11 @@ import java.util.List;
 public class ExchangeRateController {
 
     ExchangeRateService exchangeRateService;
+    ExchangeRateClient exchangeRateClient;
 
-    public ExchangeRateController(ExchangeRateService exchangeRateService){
+    public ExchangeRateController(ExchangeRateService exchangeRateService, ExchangeRateClient exchangeRateClient){
         this.exchangeRateService = exchangeRateService;
+        this.exchangeRateClient = exchangeRateClient;
     }
 
     @GetMapping
@@ -25,5 +26,10 @@ public class ExchangeRateController {
         } catch (InterruptedException e) {
             throw new RuntimeException("Failed to fetch currency rates:");
         }
+    }
+
+    @GetMapping("{id}")
+    public CurrencyResponse getRateByIsoCode(@PathVariable String id) {
+        return exchangeRateClient.getCurrency(id);
     }
 }

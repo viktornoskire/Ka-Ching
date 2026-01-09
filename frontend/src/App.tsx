@@ -21,11 +21,7 @@ function App() {
                 <div>
                     <label htmlFor="convertedAmount">Converted amount</label>
                     <input type="text" className={"convertedAmount"}/>
-                    <select>
-                        <option value="EUR">EUR</option>
-                        <option value="USD">USD</option>
-                        <option value="AUD">AUD</option>
-                    </select>
+                    <CurrencyList/>
                 </div>
             </form>
         </div>

@@ -49,20 +49,19 @@ public class ExchangeRateService {
             }
 
             LocalDate updatedDate = cur.updated_date();
-            String rate = cur.rate(isoCode);
+            double rate = Double.parseDouble(cur.rate(isoCode));
             String name = cur.name(isoCode);
 
-            if (rate == null || name == null || updatedDate == null) {
+            if (rate == 0.0 || name == null || updatedDate == null) {
                 log.warn("Invalid currency data: {}", cur);
                 continue;
             }
 
             currencies.add(new CurrencyResponse(updatedDate, rate, isoCode, name));
             try {
-                double curRate = Double.parseDouble(rate);
-                currencyRepository.save(new com.example.backend.entity.Currency(isoCode, cur.name(isoCode), curRate, cur.updated_date()));
+                currencyRepository.save(new com.example.backend.entity.Currency(isoCode, name, rate, updatedDate));
             } catch (NumberFormatException e) {
-                log.warn("Invalid currency rate: {}", cur.rate(cur.isoCode()));
+                log.warn("Invalid currency rate: {}", cur);
             }
         }
         return currencies;
