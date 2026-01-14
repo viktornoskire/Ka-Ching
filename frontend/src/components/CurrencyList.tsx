@@ -1,48 +1,54 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
-export default function CurrencyList() {
+interface Currency {isoCode: string
+                name: string;
+                rate: number;
+                updatedAt: string;}
+
+interface Props {
+    value: string | undefined;
+    onChange: (value: Currency) => void;
+}
+
+export default function CurrencyList({ value, onChange }: Props) {
     const [currencies, setCurrencies] = useState<string[]>([]);
-    const [selectedCurrency, setSelectedCurrency] = useState("");
 
     useEffect(() => {
         async function fetchCurrencies() {
-            try {
-                const res = await fetch("http://localhost:8080/api/rates");
-                const data = await res.json();
-                setCurrencies(data);
-            } catch (error) {
-                console.log(error);
-            }
+            const res = await fetch("http://localhost:8080/api/rates");
+            const data = await res.json();
+            setCurrencies(data);
         }
 
         fetchCurrencies();
     }, []);
 
     useEffect(() => {
-        if (!selectedCurrency) return;
-
         async function fetchCurrency() {
-            try {
-                const res = await fetch(
-                    "http://localhost:8080/api/rates/" + selectedCurrency
-                );
-                const data = await res.json();
-                console.log(data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        } fetchCurrency().then(() => console.log("Fetched currency"));
+    }, [value]);
 
-        fetchCurrency();
-    }, [selectedCurrency]);
+    async function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        const isoCode: string = e.target.value;
+
+        try {
+            const res= await fetch("http://localhost:8080/api/rates/" + isoCode);
+            const data: Currency = await res.json();
+            onChange(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <select
-            value={selectedCurrency}
-            onChange={(e) => setSelectedCurrency(e.target.value)}
-            className=""
+            value={value ?? ""}
+            onChange={handleChange}
+            className="ml-auto mr-0 p-1 border rounded block outline-none"
         >
-            {currencies.map((c) => (
+            <option value="" disabled>Select Currency</option>
+            {currencies.map(c => (
                 <option key={c} value={c}>
                     {c}
                 </option>
