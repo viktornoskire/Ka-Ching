@@ -1,6 +1,5 @@
 package com.example.backend.courier;
 
-import com.example.backend.dto.CurrenciesResponse;
 import com.example.backend.dto.CurrencyResponse;
 import com.example.backend.entity.Currency;
 import com.example.backend.repository.CurrencyRepository;
@@ -30,5 +29,9 @@ public class ExchangeRateClient {
 
     public List<String> getAllIsoCodes() {
         return currencyRepository.getAllIsoCodes();
+    }
+
+    public void updateCurrencyRates() throws InterruptedException {
+        exchangeRateService.updateRates();
     }
 }

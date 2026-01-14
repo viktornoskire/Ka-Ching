@@ -22,7 +22,7 @@ public class CurrencyScheduler {
     @Scheduled(cron = "${scheduler.currency-fetch-cron}")
     public void fetchRates() {
         try {
-            // exchangeRateClient.updateRates();
+            exchangeRateClient.updateCurrencyRates();
             log.info("Currency rates updated");
         } catch (/* InterruptedException e */ Exception er) {
             throw new RuntimeException("Failed to update currency rates:");
