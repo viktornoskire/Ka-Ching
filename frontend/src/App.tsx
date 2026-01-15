@@ -102,6 +102,13 @@ function App() {
                             compact
                         />
                     </div>
+                    <div className="flex justify-center mt-6">
+                        <input type="text" readOnly className={"bg-white rounded-md w-full pl-2 py-2 outline-none text-center"} value={
+                            error === ""?
+                                "1 " + fromCurrency.isoCode + " = " +
+                                calculateAmount(1, toCurrency.rate, fromCurrency.rate) +
+                                " " + toCurrency.isoCode   : "..."}/>
+                    </div>
                 </form>
             </div>
         </div>
