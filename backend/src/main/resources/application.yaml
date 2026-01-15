@@ -1,4 +1,7 @@
 spring:
+  docker:
+    compose:
+      enabled: false
   mvc:
     async:
       request-timeout: 240000
@@ -8,16 +11,16 @@ spring:
     virtual:
       enabled: true
   datasource:
-    url: jdbc:mysql://localhost:3306/ka_ching
+    url: jdbc:mysql://mysql:3306/ka_ching
     username: ${MYSQL_USER:user}
     password: ${MYSQL_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
-  profiles:
-    active: dev
+    database-platform: org.hibernate.dialect.MySQLDialect
 scheduler:
-  currency-fetch-cron: 0 0 12 * * *
+  currency-fetch-cron: 0 52 11 * * *
 app:
   API_KEY: "${MY_API_KEY}"
-  API_KEY_FALLBACK: "${MY_API_KEY_FALLBACK}"
+  API_KEY_FALLBACK: "${MY_API_KEY_FALLBACK:}"

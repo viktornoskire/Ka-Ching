@@ -1,6 +1,14 @@
+version: "3.9"
+
 services:
   mysql:
-    image: mysql:9.5.0
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    image: mysql:8.4
+    container_name: ka-ching
     environment:
       MYSQL_DATABASE: ka_ching
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -8,3 +16,38 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_DOCKER_COMPOSE_ENABLED: "false"
+      MY_API_KEY: ${MY_API_KEY}
+      MY_API_KEY_FALLBACK: ${MY_API_KEY_FALLBACK}
+    build: ./backend
+    container_name: ka-ching-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+    command: ./mvnw spring-boot:run
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: ka-ching-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
