@@ -8,9 +8,10 @@ interface Currency {isoCode: string
 interface Props {
     value: string | undefined;
     onChange: (value: Currency) => void;
+    compact?: boolean;
 }
 
-export default function CurrencyList({ value, onChange }: Props) {
+export default function CurrencyList({ value, onChange, compact }: Props) {
     const [currencies, setCurrencies] = useState<string[]>([]);
 
     useEffect(() => {
@@ -19,34 +20,26 @@ export default function CurrencyList({ value, onChange }: Props) {
             const data = await res.json();
             setCurrencies(data);
         }
-
         fetchCurrencies();
     }, []);
 
     async function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        const isoCode: string = e.target.value;
-
-        try {
-            const res= await fetch("http://localhost:8080/api/rates/" + isoCode);
-            const data: Currency = await res.json();
-            onChange(data);
-        } catch (error) {
-            console.log(error);
-        }
+        const isoCode = e.target.value;
+        const res = await fetch("http://localhost:8080/api/rates/" + isoCode);
+        const data: Currency = await res.json();
+        onChange(data);
     }
 
     return (
         <select
             value={value ?? ""}
             onChange={handleChange}
-            className="ml-auto mr-0 p-1 border rounded block outline-none"
+            className={`border rounded outline-none ${compact ? "px-3 py-2 bg-[#e5e5e5]" : "w-full p-2"}`}
         >
-            <option value="" disabled>Select Currency</option>
             {currencies.map(c => (
-                <option key={c} value={c}>
-                    {c}
-                </option>
+                <option key={c} value={c}>{c}</option>
             ))}
         </select>
     );
 }
+
