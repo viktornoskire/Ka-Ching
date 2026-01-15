@@ -11,7 +11,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ExchangeRateController {
 
-    ExchangeRateClient exchangeRateClient;
+    private final ExchangeRateClient exchangeRateClient;
 
     public ExchangeRateController(ExchangeRateClient exchangeRateClient){
         this.exchangeRateClient = exchangeRateClient;

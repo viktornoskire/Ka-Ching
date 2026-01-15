@@ -9,8 +9,22 @@ interface Props {
 }
 
 function App() {
-    const [fromCurrency, setFromCurrency] = useState<Props>();
-    const [toCurrency, setToCurrency] = useState<Props>();
+    const [fromCurrency, setFromCurrency] = useState<Props>({isoCode: "EUR", name: "Euro", rate: 1, updatedAt: ""});
+    const [toCurrency, setToCurrency] = useState<Props>({isoCode: "EUR", name: "EUR", rate: 1, updatedAt: ""});
+
+    const [amount, setAmount] = useState<number>(0);
+
+    const [error, setError] = useState<string>("");
+
+    const resetError = () => {
+        if (error !== "") {
+            setError("");
+        }
+    };
+
+    const calculateAmount = (amount:number, to:number, from:number) => {
+        return (amount * (to / from)).toFixed(2);
+    }
 
     function swapCurrencies() {
         setFromCurrency(toCurrency);
@@ -29,7 +43,7 @@ function App() {
                         Currency Converter
                     </h2>
 
-                    <div className="mb-4">
+                    <div className="grid grid-cols-[auto_1fr] items-baseline gap-x-3 gap-y-2">
                         <label>Base Amount</label>
                         <CurrencyList
                             value={fromCurrency?.isoCode}
@@ -37,12 +51,21 @@ function App() {
                         />
                         <input
                             type="text"
-                            className="bg-white rounded-md m-2 text-xl pl-2 py-1"
+                            className="bg-white rounded-md text-l w-full pl-2 py-1 outline-none col-span-2"
                             placeholder="Enter amount..."
+                            onChange={(e) => {
+                                if (e.target.value.match(/^[0-9]+(\.[0-9]+)?$/)) {
+                                    resetError();
+                                    setAmount(parseFloat(e.target.value));
+                                } else {
+                                    setError("Enter a valid number...")
+                                    setAmount(0);
+                                }
+                            }}
                         />
                     </div>
 
-                    <div className="flex justify-center my-4">
+                    <div className="flex justify-center my-8">
                         <button
                             type="button"
                             onClick={swapCurrencies}
@@ -52,16 +75,22 @@ function App() {
                         </button>
                     </div>
 
-                    <div>
-                        <label>Converted amount</label>
+                    <div className="grid grid-cols-[auto_1fr] items-baseline gap-x-3 gap-y-2">
+                        <label className="whitespace-nowrap">
+                            Converted amount
+                        </label>
+
                         <CurrencyList
                             value={toCurrency?.isoCode}
                             onChange={setToCurrency}
                         />
+
                         <input
                             type="text"
-                            className="bg-white rounded-md m-2 text-xl pl-2 py-1"
+                            className="bg-white rounded-md text-l w-full pl-2 py-1 outline-none col-span-2"
                             placeholder="0.00"
+                            readOnly
+                            value={error === "" ? calculateAmount(amount, toCurrency.rate, fromCurrency.rate) : error}
                         />
                     </div>
                 </form>

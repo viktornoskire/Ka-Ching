@@ -23,11 +23,6 @@ export default function CurrencyList({ value, onChange }: Props) {
         fetchCurrencies();
     }, []);
 
-    useEffect(() => {
-        async function fetchCurrency() {
-        } fetchCurrency().then(() => console.log("Fetched currency"));
-    }, [value]);
-
     async function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
         const isoCode: string = e.target.value;
 
@@ -35,7 +30,6 @@ export default function CurrencyList({ value, onChange }: Props) {
             const res= await fetch("http://localhost:8080/api/rates/" + isoCode);
             const data: Currency = await res.json();
             onChange(data);
-            console.log(data);
         } catch (error) {
             console.log(error);
         }

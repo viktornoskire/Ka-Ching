@@ -20,7 +20,7 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQLDialect
 scheduler:
-  currency-fetch-cron: 0 52 11 * * *
+  currency-fetch-cron: 0 0 12 * * *
 app:
   API_KEY: "${MY_API_KEY}"
   API_KEY_FALLBACK: "${MY_API_KEY_FALLBACK:}"
