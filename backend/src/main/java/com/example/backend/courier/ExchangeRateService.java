@@ -37,7 +37,7 @@ public class ExchangeRateService {
         log = org.slf4j.LoggerFactory.getLogger(ExchangeRateService.class);
     }
 
-    public List<CurrencyResponse> updateRates() throws InterruptedException {
+    public void updateRates() throws InterruptedException {
         CurrenciesResponse list = currencyListService.getCurrenciesList();
         List<CurrencyResponse> currencies = new ArrayList<>();
         for (String isoCode : list.currencies().keySet()) {
@@ -56,15 +56,12 @@ public class ExchangeRateService {
                 log.warn("Invalid currency data: {}", cur);
                 continue;
             }
-
-            currencies.add(new CurrencyResponse(updatedDate, rate, isoCode, name));
             try {
-                currencyRepository.save(new com.example.backend.entity.Currency(isoCode, name, rate, updatedDate));
+                currencyRepository.saveCurrency(new com.example.backend.entity.Currency(isoCode, name, rate, updatedDate));
             } catch (NumberFormatException e) {
                 log.warn("Invalid currency rate: {}", cur);
             }
         }
-        return currencies;
     }
 
     private Currency fetchCurrency(String isoCode) {

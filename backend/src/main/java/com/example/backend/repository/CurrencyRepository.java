@@ -9,7 +9,7 @@ import java.util.List;
 public interface CurrencyRepository extends ListCrudRepository<Currency, String> {
 
     @Query("""
-    select c from Currency c where c.isoCode = :isoCode order by c.id limit 1
+    select c from Currency c where c.isoCode = :isoCode order by c.id desc limit 1
     """)
     Currency getCurrencyByIsoCode(String isoCode);
 
