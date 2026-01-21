@@ -48,29 +48,33 @@ function App() {
             ${darkMode ? "bg-[#1E1B2E]" : "bg-[#EDE9FE]"}`}
     >
       <header
-        className={`flex justify-between items-center px-6 py-3 shadow
-                ${darkMode ? "bg-[#2A2544]" : "bg-[#DDD6FE]"}`}
+        className={`${darkMode ? "bg-[#2A2544]" : "bg-[#DDD6FE]"} px-6 py-3 shadow`}
       >
-        <h1
-          className={`text-3xl sm:text-4xl font-bold
+        <div
+          className={`flex justify-between items-center
+                 max-w-150 mx-auto`}
+        >
+          <h1
+            className={`text-3xl sm:text-4xl font-bold
                     ${darkMode ? "text-[#DDD6FE]" : "text-[#4C1D95]"}`}
-        >
-          Ka-Ching
-        </h1>
-
-        <button
-          onClick={toggleDarkMode}
-          className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300
-    ${darkMode ? "bg-[#7C3AED]" : "bg-[#E5E7EB]"}`}
-        >
-          {/* Thumb */}
-          <span
-            className={`inline-flex h-6 w-6 transform items-center justify-center rounded-full bg-white shadow-md transition-all duration-300
-      ${darkMode ? "translate-x-9" : "translate-x-1"}`}
           >
-            <span className="text-xs">{darkMode ? "🌚" : "🌞"}</span>
-          </span>
-        </button>
+            Ka-Ching
+          </h1>
+
+          <button
+            onClick={toggleDarkMode}
+            className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300
+    ${darkMode ? "bg-[#7C3AED]" : "bg-[#E5E7EB]"}`}
+          >
+            {/* Thumb */}
+            <span
+              className={`inline-flex h-6 w-6 transform items-center justify-center rounded-full bg-white shadow-md transition-all duration-300
+      ${darkMode ? "translate-x-9" : "translate-x-1"}`}
+            >
+              <span className="text-xs">{darkMode ? "🌚" : "🌞"}</span>
+            </span>
+          </button>
+        </div>
       </header>
 
       <div className="flex justify-center">
