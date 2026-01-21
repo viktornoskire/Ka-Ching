@@ -17,8 +17,6 @@ public class ExchangeRateClient {
         this.currencyRepository = currencyRepository;
     }
 
-    public List<CurrencyResponse> getRates() throws InterruptedException {return exchangeRateService.updateRates();}
-
     public CurrencyResponse getCurrency(String iso) {
         Currency cur = currencyRepository.getCurrencyByIsoCode(iso);
         if (cur == null) {

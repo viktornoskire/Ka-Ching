@@ -57,7 +57,7 @@ public class ExchangeRateService {
                 continue;
             }
             try {
-                currencyRepository.saveCurrency(new com.example.backend.entity.Currency(isoCode, name, rate, updatedDate));
+                currencyRepository.save(new com.example.backend.entity.Currency(isoCode, name, rate, updatedDate));
             } catch (NumberFormatException e) {
                 log.warn("Invalid currency rate: {}", cur);
             }

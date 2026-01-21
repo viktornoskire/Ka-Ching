@@ -29,7 +29,7 @@ function App() {
     const resetError = () => error && setError("");
 
     const calculateAmount = (amount: number, to: number, from: number) =>
-        (amount * (to / from)).toFixed(2);
+        (amount * (to / from)).toFixed(4);
 
     function swapCurrencies() {
         setFromCurrency(toCurrency);
@@ -48,7 +48,7 @@ function App() {
                         Currency Converter
                     </h2>
 
-                    <label className="mb-1 block">Amount</label>
+                    <label className="mb-1 block text-sm">Amount</label>
 
                     <div className="grid grid-cols-[1fr_auto] gap-2 items-center">
                         <input
@@ -77,12 +77,12 @@ function App() {
                         <button
                             type="button"
                             onClick={swapCurrencies}
-                            className="h-18 w-18 bg-gray-800 text-white rounded-full text-3xl active:scale-95">
+                            className="h-12 w-12 bg-gray-800 text-white rounded-full text-xl active:scale-95">
                             ⇄
                         </button>
                     </div>
 
-                    <label className="mt-6 mb-1 block">Converted Amount</label>
+                    <label className="mt-6 mb-1 block text-sm">Converted Amount</label>
 
                     <div className="grid grid-cols-[1fr_auto] gap-2 items-center">
                         <input
