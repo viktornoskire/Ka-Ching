@@ -17,6 +17,11 @@ public class ExchangeRateController {
         this.exchangeRateClient = exchangeRateClient;
     }
 
+    @GetMapping("update")
+    public void updateCurrencyRates() throws InterruptedException {
+        exchangeRateClient.updateCurrencyRates();
+    }
+
     @GetMapping
     public List<String> getIsoCodes(){
         return exchangeRateClient.getAllIsoCodes();
