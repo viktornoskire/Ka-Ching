@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.courier.ExchangeRateClient;
 import com.example.backend.dto.CurrencyResponse;
+import com.example.backend.dto.NameIsoResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class ExchangeRateController {
     }
 
     @GetMapping
-    public List<String> getIsoCodes(){
-        return exchangeRateClient.getAllIsoCodes();
+    public List<NameIsoResponse> getCurrencies(){
+        return exchangeRateClient.getCurrencies();
     }
 
     @GetMapping("{id}")

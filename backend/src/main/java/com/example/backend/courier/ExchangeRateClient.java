@@ -1,6 +1,7 @@
 package com.example.backend.courier;
 
 import com.example.backend.dto.CurrencyResponse;
+import com.example.backend.dto.NameIsoResponse;
 import com.example.backend.entity.Currency;
 import com.example.backend.repository.CurrencyRepository;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,10 @@ public class ExchangeRateClient {
         return new CurrencyResponse(cur.getRecordedAt(), cur.getRate(), cur.getIsoCode(), cur.getName());
     }
 
-    public List<String> getAllIsoCodes() {
-        return currencyRepository.getAllIsoCodes();
+    public List<NameIsoResponse> getCurrencies() {
+        return currencyRepository.getAllLatestCurrencies().stream()
+                .map(c -> new NameIsoResponse(c.getName(), c.getIsoCode()))
+                .toList();
     }
 
     public void updateCurrencyRates() throws InterruptedException {

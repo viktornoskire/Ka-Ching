@@ -14,8 +14,12 @@ public interface CurrencyRepository extends ListCrudRepository<Currency, String>
     Currency getCurrencyByIsoCode(String isoCode);
 
     @Query("""
-    select distinct c.isoCode from Currency c order by c.isoCode
+        select c
+        from Currency c
+        where c.recordedAt = (
+            select max(c2.recordedAt)
+            from Currency c2
+            where c2.isoCode = c.isoCode
+        )
     """)
-    List<String> getAllIsoCodes();
-
-}
+    List<Currency> getAllLatestCurrencies();}
