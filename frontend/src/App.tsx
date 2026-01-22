@@ -167,15 +167,11 @@ function App() {
               readOnly
               className={`rounded-md w-full pl-2 py-2 text-center outline-none
                             ${darkMode ? "bg-[#1E1B2E] text-[#DDD6FE]" : "bg-white"}`}
-              value={
-                error === ""
-                  ? `1 ${fromCurrency.isoCode} = ${calculateAmount(
-                      1,
-                      toCurrency.rate,
-                      fromCurrency.rate,
-                    )} ${toCurrency.isoCode}`
-                  : "..."
-              }
+              value={`1 ${fromCurrency.isoCode} = ${calculateAmount(
+                1,
+                toCurrency.rate,
+                fromCurrency.rate,
+              )} ${toCurrency.isoCode}`}
             />
           </div>
         </form>

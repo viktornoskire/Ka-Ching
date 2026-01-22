@@ -20,7 +20,7 @@ export default function CurrencyList({
   compact,
   darkMode,
 }: Props) {
-  const [currencies, setCurrencies] = useState<string[]>([]);
+  const [currencies, setCurrencies] = useState<Currency[]>([]);
 
   useEffect(() => {
     async function fetchCurrencies() {
@@ -30,7 +30,6 @@ export default function CurrencyList({
     }
     fetchCurrencies();
   }, []);
-
   async function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const isoCode = e.target.value;
     const res = await fetch("http://localhost:8080/api/rates/" + isoCode);
@@ -51,8 +50,8 @@ export default function CurrencyList({
             }`}
     >
       {currencies.map((c) => (
-        <option key={c} value={c}>
-          {c}
+        <option key={c.isoCode} value={c.isoCode}>
+          {c.isoCode}
         </option>
       ))}
     </select>
