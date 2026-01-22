@@ -21,5 +21,6 @@ public interface CurrencyRepository extends ListCrudRepository<Currency, String>
             from Currency c2
             where c2.isoCode = c.isoCode
         )
+        order by c.isoCode
     """)
     List<Currency> getAllLatestCurrencies();}

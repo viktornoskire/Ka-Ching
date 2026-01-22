@@ -1,24 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CurrencyList from "./components/CurrencyList";
-
-interface Props {
-  isoCode: string;
-  name: string;
-  rate: number;
-  updatedAt: string;
-}
+import type { Currencies, Currency } from "./types.tsx";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
-  const [fromCurrency, setFromCurrency] = useState<Props>({
+  const [fromCurrency, setFromCurrency] = useState<Currency>({
     isoCode: "EUR",
     name: "Euro",
     rate: 1,
     updatedAt: "",
   });
-
-  const [toCurrency, setToCurrency] = useState<Props>({
+  const [toCurrency, setToCurrency] = useState<Currency>({
     isoCode: "EUR",
     name: "EUR",
     rate: 1,
@@ -27,6 +20,16 @@ function App() {
 
   const [amount, setAmount] = useState<number>(0);
   const [error, setError] = useState<string>("");
+  const [currencies, setCurrencies] = useState<Currencies[]>([]);
+
+  useEffect(() => {
+    async function fetchCurrencies() {
+      const res = await fetch("http://localhost:8080/api/rates");
+      const data = await res.json();
+      setCurrencies(data);
+    }
+    fetchCurrencies();
+  }, []);
 
   const resetError = () => error && setError("");
 
@@ -118,6 +121,7 @@ function App() {
 
             <CurrencyList
               value={fromCurrency.isoCode}
+              currencies={currencies}
               onChange={setFromCurrency}
               compact
               darkMode={darkMode}
@@ -155,6 +159,7 @@ function App() {
 
             <CurrencyList
               value={toCurrency.isoCode}
+              currencies={currencies}
               onChange={setToCurrency}
               compact
               darkMode={darkMode}
@@ -175,6 +180,9 @@ function App() {
             />
           </div>
         </form>
+        <div>
+          <ul></ul>
+        </div>
       </div>
     </div>
   );

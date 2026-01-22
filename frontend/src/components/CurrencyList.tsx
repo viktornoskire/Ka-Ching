@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react";
-
-interface Currency {
-  isoCode: string;
-  name: string;
-  rate: number;
-  updatedAt: string;
-}
+import type { Currency, Currencies } from "../types";
 
 interface Props {
   value: string | undefined;
   onChange: (value: Currency) => void;
   compact?: boolean;
   darkMode?: boolean;
+  currencies: Currencies[];
 }
 
 export default function CurrencyList({
@@ -19,17 +13,8 @@ export default function CurrencyList({
   onChange,
   compact,
   darkMode,
+  currencies,
 }: Props) {
-  const [currencies, setCurrencies] = useState<Currency[]>([]);
-
-  useEffect(() => {
-    async function fetchCurrencies() {
-      const res = await fetch("http://localhost:8080/api/rates");
-      const data = await res.json();
-      setCurrencies(data);
-    }
-    fetchCurrencies();
-  }, []);
   async function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const isoCode = e.target.value;
     const res = await fetch("http://localhost:8080/api/rates/" + isoCode);
