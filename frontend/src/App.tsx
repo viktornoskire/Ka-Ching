@@ -69,7 +69,6 @@ function App() {
             className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300
     ${darkMode ? "bg-[#7C3AED]" : "bg-[#E5E7EB]"}`}
           >
-            {/* Thumb */}
             <span
               className={`inline-flex h-6 w-6 transform items-center justify-center rounded-full bg-white shadow-md transition-all duration-300
       ${darkMode ? "translate-x-9" : "translate-x-1"}`}
@@ -80,6 +79,7 @@ function App() {
         </div>
       </header>
 
+      {/*Converter*/}
       <div className="flex justify-center">
         <form
           className={`w-full sm:w-[90%] md:w-[60%] lg:w-[35%] mt-8 pt-4 pb-8 px-8 rounded-3xl shadow-lg
@@ -92,6 +92,7 @@ function App() {
             Currency Converter
           </h2>
 
+          {/*Base Amount*/}
           <label
             className={`mb-1 block text-sm ${darkMode ? "text-[#C4B5FD]" : "text-[#4C1D95]"}`}
           >
@@ -128,6 +129,7 @@ function App() {
             />
           </div>
 
+          {/*Swap Button*/}
           <div className="flex justify-center my-6">
             <button
               type="button"
@@ -138,6 +140,7 @@ function App() {
             </button>
           </div>
 
+          {/*Converted Amount*/}
           <label
             className={`mb-1 block text-sm ${darkMode ? "text-[#C4B5FD]" : "text-[#4C1D95]"}`}
           >
@@ -166,6 +169,7 @@ function App() {
             />
           </div>
 
+          {/*Result*/}
           <div className="flex justify-center mt-6">
             <input
               type="text"
@@ -180,8 +184,42 @@ function App() {
             />
           </div>
         </form>
-        <div>
-          <ul></ul>
+      </div>
+
+      {/*Currencies*/}
+      <div className="flex justify-center">
+        <div
+          className={`w-full sm:w-[90%] md:w-[60%] lg:w-[35%] mt-8 pt-4 pb-8 px-8 rounded-3xl shadow-lg
+                    ${darkMode ? "bg-[#2A2544]" : "bg-[#F5F3FF]"}`}
+        >
+          <label
+            className={`py-2 block text-sm ${darkMode ? "text-[#C4B5FD]" : "text-[#4C1D95]"}`}
+          >
+            Currency name or ISO code
+          </label>
+          <input
+            type="text"
+            className={`mb-6 rounded-md w-full pl-2 py-2 outline-none
+                            ${
+                              darkMode
+                                ? "bg-[#1E1B2E] text-white focus:ring-[#7C3AED]"
+                                : "bg-white focus:ring-[#C4B5FD]"
+                            }`}
+            placeholder="Currency name or ISO code..."
+            onChange={() => {}}
+          />
+          <ul>
+            {currencies.map((c) => (
+              <li
+                key={c.isoCode}
+                className={`flex justify-between border-b-2 py-2
+                ${darkMode ? "border-[#7C3AED] text-[#DDD6FE]" : "border-[#C4B5FD]"}`}
+              >
+                <p>{c.isoCode}</p>
+                <p>{c.name}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
