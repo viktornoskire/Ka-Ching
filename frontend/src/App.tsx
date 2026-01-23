@@ -4,7 +4,7 @@ import CurrencyList from "./components/CurrencyList.tsx";
 import type { Currencies, Currency } from "./types.tsx";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   const [fromCurrency, setFromCurrency] = useState<Currency>({
     isoCode: "EUR",
@@ -14,7 +14,7 @@ function App() {
   });
   const [toCurrency, setToCurrency] = useState<Currency>({
     isoCode: "EUR",
-    name: "EUR",
+    name: "Euro",
     rate: 1,
     updatedAt: "",
   });
@@ -25,7 +25,8 @@ function App() {
 
   useEffect(() => {
     async function fetchCurrencies() {
-      const res = await fetch("http://localhost:8080/api/rates");
+      const apiBase = import.meta.env.VITE_API_BASE_URL;
+      const res = await fetch(apiBase + "/api/rates");
       const data = await res.json();
       setCurrencies(data);
     }
@@ -35,7 +36,7 @@ function App() {
   const resetError = () => error && setError("");
 
   const calculateAmount = (amount: number, to: number, from: number) =>
-    (amount * (to / from)).toFixed(4);
+    (amount * (to / from)).toFixed(3);
 
   function swapCurrencies() {
     setFromCurrency(toCurrency);
@@ -171,19 +172,20 @@ function App() {
           </div>
 
           {/*Result*/}
-          <div className="flex justify-center mt-6">
-            <input
-              type="text"
-              readOnly
-              className={`rounded-md w-full pl-2 py-2 text-center outline-none
-                            ${darkMode ? "bg-[#1E1B2E] text-[#DDD6FE]" : "bg-white"}`}
-              value={`1 ${fromCurrency.isoCode} = ${calculateAmount(
-                1,
-                toCurrency.rate,
-                fromCurrency.rate,
-              )} ${toCurrency.isoCode}`}
-            />
-          </div>
+          {fromCurrency && toCurrency && (
+            <div className="flex justify-center mt-6">
+              <div
+                className={`px-4 py-2 rounded-lg text-sm text-center
+      ${
+        darkMode ? "bg-[#1E1B2E] text-[#C4B5FD]" : "bg-[#FFFFFF] text-[#4C1D95]"
+      }`}
+              >
+                Exchange rate: 1 {fromCurrency.isoCode} →{" "}
+                {calculateAmount(1, toCurrency.rate, fromCurrency.rate)}{" "}
+                {toCurrency.isoCode}
+              </div>
+            </div>
+          )}
         </form>
       </div>
 

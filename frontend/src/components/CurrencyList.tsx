@@ -28,7 +28,7 @@ export default function CurrencyList({ currencies, darkMode }: Props) {
                                 ? "bg-[#1E1B2E] text-white focus:ring-[#7C3AED]"
                                 : "bg-white focus:ring-[#C4B5FD]"
                             }`}
-          placeholder="Currency name or ISO code..."
+          placeholder="🔍 Search: AUD, dollar, Australia"
           onChange={(e) => {
             if (e.target.value.length < 3) {
               setFilter("");
@@ -38,7 +38,7 @@ export default function CurrencyList({ currencies, darkMode }: Props) {
             }
           }}
         />
-        <ul>
+        <ul className="space-y-1">
           {currencies.map((c) => {
             if (
               c.isoCode.toLowerCase().includes(filter.toLowerCase()) ||
@@ -47,11 +47,21 @@ export default function CurrencyList({ currencies, darkMode }: Props) {
               return (
                 <li
                   key={c.isoCode}
-                  className={`flex justify-between border-b-2 py-2
-                ${darkMode ? "border-[#7C3AED] text-[#DDD6FE]" : "border-[#C4B5FD]"}`}
+                  className={`flex justify-between py-4 px-2 cursor-pointer rounded-md
+                ${
+                  darkMode
+                    ? "border-[#7C3AED] text-[#DDD6FE] hover:bg-[#2A2340]"
+                    : "border-[#C4B5FD] hover:bg-white"
+                }`}
                 >
-                  <p>{c.isoCode}</p>
-                  <p>{c.name}</p>
+                  <p className="text-m font-medium">{c.name}</p>
+                  <p
+                    className={`text-s font-mono ${
+                      darkMode ? "text-[#A78BFA]" : "text-[#6D28D9]"
+                    }`}
+                  >
+                    {c.isoCode}
+                  </p>
                 </li>
               );
             }

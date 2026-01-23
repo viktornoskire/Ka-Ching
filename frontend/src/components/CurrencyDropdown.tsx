@@ -17,7 +17,8 @@ export default function CurrencyDropdown({
 }: Props) {
   async function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const isoCode = e.target.value;
-    const res = await fetch("http://localhost:8080/api/rates/" + isoCode);
+    const apiBase = import.meta.env.VITE_API_BASE_URL;
+    const res = await fetch(apiBase + "/api/rates/" + isoCode);
     const data: Currency = await res.json();
     onChange(data);
   }
