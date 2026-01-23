@@ -19,6 +19,7 @@ public class CurrencyScheduler {
          log = LoggerFactory.getLogger(CurrencyScheduler.class);
      }
 
+     // Retry annotation
     @Scheduled(cron = "${scheduler.currency-fetch-cron}", zone = "Europe/Stockholm")
     public void fetchRates() {
         try {

@@ -24,6 +24,9 @@ public class ExchangeRateService {
     @Value("${app.API_KEY_FALLBACK:}")
     private String API_KEY_FALLBACK;
 
+    @Value("${app.EXTERNAL_API_BASE_URL}")
+    private String baseUrl;
+
     private String ACTIVE_KEY = null;
 
     private final WebClient webClient;
@@ -31,7 +34,7 @@ public class ExchangeRateService {
     private final CurrencyRepository currencyRepository;
 
     public ExchangeRateService(WebClient.Builder builder, CurrencyListService currencyListService, CurrencyRepository currencyRepository) {
-        this.webClient = builder.baseUrl("https://api.getgeoapi.com/v2/currency/convert").build();
+        this.webClient = builder.baseUrl(baseUrl + "/convert").build();
         this.currencyListService = currencyListService;
         this.currencyRepository = currencyRepository;
         log = org.slf4j.LoggerFactory.getLogger(ExchangeRateService.class);

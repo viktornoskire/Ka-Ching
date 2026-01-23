@@ -17,6 +17,9 @@ public class CurrencyListService {
     @Value("${app.API_KEY_FALLBACK:}")
     private String API_KEY_FALLBACK;
 
+    @Value("${app.EXTERNAL_API_BASE_URL}")
+    private String baseUrl;
+
     @PostConstruct
     void test() {
         System.out.println(API_KEY);
@@ -26,7 +29,7 @@ public class CurrencyListService {
     private final WebClient webClient;
 
     public CurrencyListService(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("https://api.getgeoapi.com/v2/currency/list").build();
+        this.webClient = builder.baseUrl(baseUrl + "/list").build();
     }
 
     public CurrenciesResponse getCurrenciesList() {
