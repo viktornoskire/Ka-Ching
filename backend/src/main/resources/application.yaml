@@ -15,10 +15,9 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-scheduler:
-  currency-fetch-cron: 0 0 12 * * *
 
 app:
   API_KEY: "${MY_API_KEY}"
   API_KEY_FALLBACK: "${MY_API_KEY_FALLBACK:}"
   EXTERNAL_API_BASE_URL: "${MY_EXTERNAL_API_URL}"
+  CRON_API_KEY: "${CRON_API_KEY}"
