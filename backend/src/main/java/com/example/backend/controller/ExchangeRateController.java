@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/rates")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://ka-ching-3616.onrender.com/")
 public class ExchangeRateController {
 
     private final ExchangeRateClient exchangeRateClient;
