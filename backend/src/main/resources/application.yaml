@@ -2,9 +2,11 @@ spring:
   threads:
     virtual:
       enabled: true
+
   mvc:
     async:
       request-timeout: 240000
+
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -17,7 +19,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 app:
-  API_KEY: "${MY_API_KEY}"
-  API_KEY_FALLBACK: "${MY_API_KEY_FALLBACK:}"
-  EXTERNAL_API_BASE_URL: "${MY_EXTERNAL_API_URL}"
-  CRON_API_KEY: "${CRON_API_KEY}"
+  api-key: ${MY_API_KEY}
+  api-key-fallback: ${MY_API_KEY_FALLBACK:}
+  external-api-base-url: ${MY_EXTERNAL_API_URL}
+  rates-api-key: ${CRON_API_KEY}
