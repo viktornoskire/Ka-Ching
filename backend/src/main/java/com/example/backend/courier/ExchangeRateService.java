@@ -5,7 +5,9 @@ import com.example.backend.dto.Currency;
 import com.example.backend.dto.CurrencyResponse;
 import com.example.backend.error.ApiUsageLimit;
 import com.example.backend.repository.CurrencyRepository;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,7 +18,8 @@ import java.util.List;
 
 @Service
 public class ExchangeRateService {
-    Logger log;
+    private static final Logger log =
+            LoggerFactory.getLogger(ExchangeRateService.class);
 
     @Value("${app.api-key}")
     private String API_KEY;
@@ -24,20 +27,35 @@ public class ExchangeRateService {
     @Value("${app.api-key-fallback:}")
     private String API_KEY_FALLBACK;
 
+    private String ACTIVE_KEY;
+
     @Value("${app.external-api-base-url}")
     private String baseUrl;
 
-    private String ACTIVE_KEY = null;
-
-    private final WebClient webClient;
+    private WebClient webClient;
     private final CurrencyListService currencyListService;
     private final CurrencyRepository currencyRepository;
 
-    public ExchangeRateService(WebClient.Builder builder, CurrencyListService currencyListService, CurrencyRepository currencyRepository) {
-        this.webClient = builder.baseUrl(baseUrl + "/convert").build();
+    public ExchangeRateService(CurrencyListService currencyListService, CurrencyRepository currencyRepository) {
         this.currencyListService = currencyListService;
         this.currencyRepository = currencyRepository;
-        log = org.slf4j.LoggerFactory.getLogger(ExchangeRateService.class);
+    }
+
+    @PostConstruct
+    void init() {
+        if (baseUrl == null || baseUrl.isBlank()) {
+            throw new IllegalStateException(
+                    "External API base URL is missing (MY_EXTERNAL_API_URL)"
+            );
+        }
+
+        this.webClient = WebClient.builder()
+                .baseUrl(baseUrl + "/convert")
+                .build();
+
+        this.ACTIVE_KEY = API_KEY;
+
+        log.info("External API base URL = {}", baseUrl);
     }
 
     public void updateRates() throws InterruptedException {
