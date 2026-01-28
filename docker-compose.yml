@@ -1,40 +1,37 @@
-version: "3.9"
-
 services:
-  mysql:
+  postgres:
+    image: postgres:16
+    container_name: ka-ching-postgres
+    environment:
+      POSTGRES_DB: ka_ching
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d ka_ching"]
       interval: 5s
       timeout: 5s
       retries: 10
-    image: mysql:8.4
-    container_name: ka-ching
-    environment:
-      MYSQL_DATABASE: ka_ching
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
 
   backend:
+    build: ./backend
+    container_name: ka-ching-backend
     environment:
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      POSTGRES_DB: ka_ching
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_DOCKER_COMPOSE_ENABLED: "false"
       MY_API_KEY: ${MY_API_KEY}
       MY_API_KEY_FALLBACK: ${MY_API_KEY_FALLBACK}
-    build: ./backend
-    container_name: ka-ching-backend
+      MY_EXTERNAL_API_URL: ${MY_EXTERNAL_API_URL}
+      CRON_API_KEY: ${CRON_API_KEY}
     ports:
       - "8080:8080"
-    volumes:
-      - ./backend:/app
-    command: ./mvnw spring-boot:run
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
 
   frontend:
@@ -45,4 +42,4 @@ services:
       - backend
 
 volumes:
-  mysql_data:
+  postgres_data:

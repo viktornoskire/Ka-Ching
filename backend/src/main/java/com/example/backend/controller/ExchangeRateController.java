@@ -20,7 +20,7 @@ public class ExchangeRateController {
         this.exchangeRateClient = exchangeRateClient;
     }
 
-    @Value("${app.CRON_API_KEY}")
+    @Value("${app.cron-api-key}")
     private String cronSecret;
 
     @GetMapping("update")

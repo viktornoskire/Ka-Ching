@@ -18,13 +18,13 @@ import java.util.List;
 public class ExchangeRateService {
     Logger log;
 
-    @Value("${app.API_KEY}")
+    @Value("${app.api-key}")
     private String API_KEY;
 
-    @Value("${app.API_KEY_FALLBACK:}")
+    @Value("${app.api-key-fallback:}")
     private String API_KEY_FALLBACK;
 
-    @Value("${app.EXTERNAL_API_BASE_URL}")
+    @Value("${app.external-api-base-url}")
     private String baseUrl;
 
     private String ACTIVE_KEY = null;
