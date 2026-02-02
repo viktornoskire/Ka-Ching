@@ -1,19 +1,25 @@
 spring:
-  application:
-    name: ka-ching
   threads:
     virtual:
       enabled: true
+
+  mvc:
+    async:
+      request-timeout: 240000
+
   datasource:
-    url: jdbc:mysql://mysql:3306/ka_ching
-    username: ${MYSQL_USER:user}
-    password: ${MYSQL_PASSWORD:password}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
-  profiles:
-    active: dev
-scheduler:
-  currency-fetch-cron: 0 0 12 * * *
-API_KEY: ${API_KEY:}
-API_KEY_FALLBACK: ${API_KEY_FALLBACK:}
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  api-key: ${MY_API_KEY}
+  api-key-fallback: ${MY_API_KEY_FALLBACK:}
+  external-api-base-url: ${MY_EXTERNAL_API_URL}
+  rates-api-key: ${CRON_API_KEY}

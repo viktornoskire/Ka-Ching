@@ -1,7 +1,6 @@
 package com.example.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.jspecify.annotations.NonNull;
 
 import java.time.LocalDate;
@@ -10,25 +9,28 @@ import java.time.LocalDate;
 public class Currency {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "iso_code", nullable = false)
     String isoCode;
 
-    @NonNull
     String name;
 
     double rate;
 
-    @NonNull
-    LocalDate updatedAt;
+    @Column(name = "recorded_at", nullable = false)
+    LocalDate recordedAt;
 
     public Currency() {
 
     }
 
-    public Currency(String isoCode, String name, double rate, LocalDate updatedAt) {
+    public Currency(String isoCode, String name, double rate, LocalDate recordedAt) {
         this.isoCode = isoCode;
         this.name = name;
         this.rate = rate;
-        this.updatedAt = updatedAt;
+        this.recordedAt = recordedAt;
     }
 
     // Getters and Setters
@@ -56,11 +58,11 @@ public class Currency {
         this.rate = rate;
     }
 
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
+    public LocalDate getRecordedAt() {
+        return recordedAt;
     }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setRecordedAt(LocalDate recordedAt) {
+        this.recordedAt = recordedAt;
     }
 }

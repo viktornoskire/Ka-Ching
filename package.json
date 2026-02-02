@@ -1,0 +1,22 @@
+{
+  "name": "ka-ching",
+  "version": "1.0.0",
+  "description": "currency converter",
+  "homepage": "https://github.com/viktornoskire/Ka-Ching#readme",
+  "bugs": {
+    "url": "https://github.com/viktornoskire/Ka-Ching/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viktornoskire/Ka-Ching.git"
+  },
+  "license": "ISC",
+  "author": "Viktor Eriksson",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "docker-compose up --build",
+    "stop": "docker-compose down"
+  }
+}
